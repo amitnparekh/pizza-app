@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SPA SDK Sample</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+      <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
+      <script src="https://cdn.auth0.com/js/auth0/9.14.3/auth0.min.js"></script>
+      <!-- <script src="https://cdn.auth0.com/js/auth0/9.11/auth0.min.js"></script> -->
+      
+      <!-- This is the file created using Broswerify.   -->
+        <!--<script src="js/bundle.js"></script>-->
+   
+    <script src="js/auth0.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+
+  </head>
+
+  <body>
+    <h2 id="h2-title">SPA Authentication Sample</h2>
+    <p>Welcome to our page!</p>
+    <button id="btn-login" onclick="login()">Log in</button>
+    <button id="btn-logout" onclick="logout()">Log out</button>
+    <div class="hidden" id="pizza-order-msg"><p>Please Login to place your order.</p></div>
+    
+  <div class="hidden" id="pizza-order-form">
+    <p>Please place your order.</p>
+    <!--
+     <form id="order-form" method="POST">
+-->
+    <form id="order-form" method="POST" action="/api/takePizzaOrder">
+          
+      <p>
+          <strong>Pizza Type: </strong> <input id="pizzaType" name="pizzaType" type="text" />
+      </p>
+      <p>
+          <strong>Quantity: </strong> <input id="pizzaQty" name="pizzaQty" type="text" />
+      </p>
+      
+      <p>
+          <input type="hidden" id="userId" name="userId" value=""/>
+      </p>
+  
+         <!--
+      <button id="btn-call-api" disabled="true" onclick="callApi()">Place Order</button>
+            -->
+  
+      <input type="submit" id="btn-call-api" disabled="true" value="Place Order"></input>
+
+    </form>
+
+    <label>
+      <pre id="ipt-order-confirmation-message"></pre>
+    </label>
+  </div>
+
+    
+
+    <!-- Add a container to hold the response from the call -->
+    <pre id="api-call-result"></pre>
+
+	<br>
+<!-- Code to show User Profile details -->
+  <div class="hidden" id="gated-content">
+    <p>
+      You're seeing this content because you're currently
+      <strong>logged in</strong>.
+    </p>
+    <label>
+      <b>Access token:</b>
+      <pre id="ipt-access-token"></pre>
+    </label>
+    <label>
+      <b>User profile:</b>
+      <pre id="ipt-user-profile"></pre>
+    </label>
+  </div>
+  <div class="hidden" id="gated-content-1">
+    <label>
+      <b>ID (JWT) Token with user metadata (and pizza order details):</b>
+      <pre id="ipt-user-metadata"></pre>
+    </label>
+  </div>
+
+ 
+	<br>
+	<h3 id="h3-message"></h2>
+
+    
+    <script>
+     
+      var orderConfirmationMessage = GetURLParameter('orderConfirmation');
+
+      var orderConfMessage = decodeURI(orderConfirmationMessage);
+
+      if(orderConfirmationMessage != null && orderConfirmationMessage.length > 0) {
+        document.getElementById("ipt-order-confirmation-message").innerHTML = "<b>"+orderConfMessage+"</b>";
+      }
+
+    </script>
+    
+  </body>
+</html>
