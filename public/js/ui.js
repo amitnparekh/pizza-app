@@ -64,15 +64,11 @@ const updateUI = async () => {
   document.getElementById("btn-logout").disabled = !isAuthenticated;
   document.getElementById("btn-login").disabled = isAuthenticated;
 
-
   // API related - enable the button to call the API
-  document.getElementById("btn-call-api").disabled = !isAuthenticated;
+  //document.getElementById("btn-call-api").disabled = !isAuthenticated;
 
   // NEW - add logic to show/hide gated content after authentication
   if (isAuthenticated) {
-    document.getElementById("gated-content").classList.remove("hidden");
-    document.getElementById("pizza-order-form").classList.remove("hidden");
-    document.getElementById("pizza-order-msg").classList.add("hidden");
 
     // Check the current claims of the ID token
     const claims = await auth0.getIdTokenClaims();
@@ -88,8 +84,25 @@ const updateUI = async () => {
 
     document.getElementById("ipt-user-profile").textContent = JSON.stringify( user );
 
+    document.getElementById("gated-content").classList.remove("hidden");
+    //document.getElementById("pizza-order-msg").classList.add("hidden");
+
+    const isUserEmailVerified = user.email_verified;
+
+    console.log("User email is verified : " + isUserEmailVerified);
+
+    if(isUserEmailVerified) {
+      console.log("Will show the Pizza Order Form");
+      document.getElementById("pizza-order-msg").innerHTML = "<p>Please place your order.</p>";
+      document.getElementById("pizza-order-form").classList.remove("hidden");
+    } else {
+      document.getElementById("pizza-order-msg").innerHTML = "<p>Please Verify your email before placing an order.<br>Check your inbox for an email verification link.</p>";
+    }
+
+    document.getElementById("pizza-order-msg").classList.remove("hidden");
+
     var claimsString = "";
-    
+
     //if(claims != null) {
 
       claimsString = JSON.stringify(claims);
@@ -110,6 +123,8 @@ const updateUI = async () => {
     document.getElementById("gated-content").classList.add("hidden");
     document.getElementById("gated-content-1").classList.add("hidden");
     document.getElementById("pizza-order-form").classList.add("hidden");
+
+    document.getElementById("pizza-order-msg").innerHTML = "<p>Hey! You need to first Login to place your order.</p>";
     document.getElementById("pizza-order-msg").classList.remove("hidden");
   }
 
